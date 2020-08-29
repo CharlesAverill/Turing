@@ -8,6 +8,7 @@ public class Instruction : MonoBehaviour
 
     public Text text;
     public Image image;
+    public Image sprite;
 
     // Start is called before the first frame update
     void Start()

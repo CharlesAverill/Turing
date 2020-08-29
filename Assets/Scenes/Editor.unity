@@ -673,6 +673,10 @@ MonoBehaviour:
   instructionObject: {fileID: 930138756601886421, guid: b83c2f391af0c8e8bb60d3910920dd08, type: 3}
   instructionListSpawnPoint: {fileID: 97353664}
   content: {fileID: 602587281}
+  readSprite: {fileID: 21300000, guid: e275ddfa5a990320286fb398db1c285b, type: 3}
+  writeSprite: {fileID: 21300000, guid: a32a4cf6021ac9fd799fdb2c21892691, type: 3}
+  leftSprite: {fileID: 21300000, guid: 8669054ebe3cf535e8f9a7f5b7b7e5fc, type: 3}
+  rightSprite: {fileID: 21300000, guid: 40493a0f406c8d67bb7a7002fe50b238, type: 3}
 --- !u!1 &602587280
 GameObject:
   m_ObjectHideFlags: 0

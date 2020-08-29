@@ -11,6 +11,11 @@ public class UIHandler : MonoBehaviour
     public Transform instructionListSpawnPoint;
     public RectTransform content;
 
+    public Sprite readSprite;
+    public Sprite writeSprite;
+    public Sprite leftSprite;
+    public Sprite rightSprite;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,15 +64,19 @@ public class UIHandler : MonoBehaviour
       switch(instruction){
         case "Read":
           instructionComponent.image.color = new Color32(250, 140, 22, 150);
+          instructionComponent.sprite.sprite = readSprite;
           break;
         case "Write":
           instructionComponent.image.color = new Color32(138, 224, 49, 150);
+          instructionComponent.sprite.sprite = writeSprite;
           break;
         case "Left":
           instructionComponent.image.color = new Color32(22, 189, 250, 150);
+          instructionComponent.sprite.sprite = leftSprite;
           break;
         case "Right":
           instructionComponent.image.color = new Color32(223, 35, 250, 150);
+          instructionComponent.sprite.sprite = rightSprite;
           break;
       }
     }

@@ -48,7 +48,7 @@ public class UIHandler : MonoBehaviour
 
       content.sizeDelta = new Vector2(0, 60 * instructions.Count);
 
-      float spawnY = -1 * (490 - (60 * instructions.Count));
+      float spawnY = -1 * (485 - (65 * instructions.Count));
       float spawnX = 0f;
       Vector3 pos = new Vector3(spawnX, -spawnY, instructionListSpawnPoint.position.z);
       GameObject spawnedInstruction = (GameObject)Instantiate(instructionObject, pos, instructionListSpawnPoint.rotation);
@@ -58,16 +58,16 @@ public class UIHandler : MonoBehaviour
       instructionComponent.text.text = instruction;
       switch(instruction){
         case "Read":
-          instructionComponent.image.color = new Color32(250, 140, 22, 100);
+          instructionComponent.image.color = new Color32(250, 140, 22, 150);
           break;
         case "Write":
-          instructionComponent.image.color = new Color32(163, 250, 72, 100);
+          instructionComponent.image.color = new Color32(138, 224, 49, 150);
           break;
         case "Left":
-          instructionComponent.image.color = new Color32(22, 189, 250, 100);
+          instructionComponent.image.color = new Color32(22, 189, 250, 150);
           break;
         case "Right":
-          instructionComponent.image.color = new Color32(223, 35, 250, 100);
+          instructionComponent.image.color = new Color32(223, 35, 250, 150);
           break;
       }
     }

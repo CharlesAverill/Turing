@@ -9,6 +9,7 @@ public class Instruction : MonoBehaviour
     public Text text;
     public Image image;
     public Image sprite;
+    public string userContent;
     public int index;
 
     // Start is called before the first frame update
@@ -21,5 +22,9 @@ public class Instruction : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void setContent(Text newContent){
+      userContent = newContent.text;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -87,22 +88,38 @@ public class UIHandler : MonoBehaviour
       Button instructionButton = spawnedInstruction.GetComponent<Button>();
       instructionButton.onClick.AddListener(delegate {selectInstruction(instructionComponent);});
 
+      InputField inputField = instructionComponent.GetComponentInChildren<InputField>();
+
+      inputField.onValidateInput += delegate (string s, int i, char c) { return char.ToUpper(c); };
+
       switch(instruction){
         case "Read":
           instructionComponent.image.color = new Color32(250, 140, 22, 150);
           instructionComponent.sprite.sprite = readSprite;
+
+          inputField.placeholder.GetComponent<Text>().text = "Name";
+
           break;
         case "Write":
           instructionComponent.image.color = new Color32(138, 224, 49, 150);
           instructionComponent.sprite.sprite = writeSprite;
+
+          inputField.placeholder.GetComponent<Text>().text = "Value";
+
           break;
         case "Left":
           instructionComponent.image.color = new Color32(22, 189, 250, 150);
           instructionComponent.sprite.sprite = leftSprite;
+
+          inputField.gameObject.SetActive(false);
+
           break;
         case "Right":
           instructionComponent.image.color = new Color32(223, 35, 250, 150);
           instructionComponent.sprite.sprite = rightSprite;
+
+          inputField.gameObject.SetActive(false);
+
           break;
       }
     }

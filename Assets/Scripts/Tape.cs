@@ -53,6 +53,7 @@ public class Tape : MonoBehaviour
         switch(i.instructionType){
           case "Goto":
             zoom.Play();
+
             int newIndex = Int32.Parse(i.userContent);
 
             if(newIndex >= 0 && newIndex < instructions.Length){
@@ -63,17 +64,39 @@ public class Tape : MonoBehaviour
             }
 
             break;
+          case "GotoIf":
+            zoom.Play();
+
+            Debug.Log(read() + ":" + i.extraUserContent);
+
+            if(read() == i.extraUserContent){
+              int newIndex1 = Int32.Parse(i.userContent);
+
+              if(newIndex1 >= 0 && newIndex1 < instructions.Length){
+                j = newIndex1 - 2;
+              }
+              else{
+                breakLoop = true;
+              }
+            }
+            break;
           case "Write":
             pencilScratch.Play();
+
             write(i.userContent);
+
             break;
           case "Left":
             click.Play();
+
             shiftLeft();
+
             break;
           case "Right":
             shiftRight();
+
             click.Play();
+
             break;
         }
         yield return new WaitForSeconds(.5f);

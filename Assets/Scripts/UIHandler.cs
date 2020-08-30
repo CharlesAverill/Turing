@@ -66,6 +66,10 @@ public class UIHandler : MonoBehaviour
       addInstructionToList("Goto");
     }
 
+    public void go_to_If(){
+      addInstructionToList("GotoIf");
+    }
+
     public void write(){
       addInstructionToList("Write");
     }
@@ -102,7 +106,8 @@ public class UIHandler : MonoBehaviour
       Button instructionButton = spawnedInstruction.GetComponent<Button>();
       instructionButton.onClick.AddListener(delegate {selectInstruction(instructionComponent);});
 
-      InputField inputField = instructionComponent.GetComponentInChildren<InputField>();
+      InputField inputField = instructionComponent.first;
+      InputField second = instructionComponent.second;
 
       inputField.onValidateInput += delegate (string s, int i, char c) { return char.ToUpper(c); };
 
@@ -114,12 +119,25 @@ public class UIHandler : MonoBehaviour
           inputField.placeholder.GetComponent<Text>().text = "Line";
           inputField.contentType = InputField.ContentType.IntegerNumber;
 
+          second.gameObject.SetActive(false);
+
+          break;
+        case "GotoIf":
+          instructionComponent.image.color = new Color32(250, 140, 22, 150);
+          instructionComponent.sprite.sprite = gotoSprite;
+
+          inputField.placeholder.GetComponent<Text>().text = "Line";
+          inputField.contentType = InputField.ContentType.IntegerNumber;
+
+          second.placeholder.GetComponent<Text>().text = "Symbol";
+
           break;
         case "Write":
           instructionComponent.image.color = new Color32(138, 224, 49, 150);
           instructionComponent.sprite.sprite = writeSprite;
 
           inputField.placeholder.GetComponent<Text>().text = "Value";
+          second.gameObject.SetActive(false);
 
           break;
         case "Left":
@@ -127,6 +145,7 @@ public class UIHandler : MonoBehaviour
           instructionComponent.sprite.sprite = leftSprite;
 
           inputField.gameObject.SetActive(false);
+          second.gameObject.SetActive(false);
 
           break;
         case "Right":
@@ -134,6 +153,7 @@ public class UIHandler : MonoBehaviour
           instructionComponent.sprite.sprite = rightSprite;
 
           inputField.gameObject.SetActive(false);
+          second.gameObject.SetActive(false);
 
           break;
       }

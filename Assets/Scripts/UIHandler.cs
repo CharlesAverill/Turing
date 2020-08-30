@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIHandler : MonoBehaviour
 {
 
-    public List<string> instructions;
+    public List<Instruction> instructions;
     public GameObject instructionObject;
     public Transform instructionListSpawnPoint;
     public RectTransform content;
@@ -16,51 +16,77 @@ public class UIHandler : MonoBehaviour
     public Sprite leftSprite;
     public Sprite rightSprite;
 
+    public Instruction selectedInstruction;
+
     // Start is called before the first frame update
     void Start()
     {
-      instructions = new List<string>();
+      instructions = new List<Instruction>();
+      selectedInstruction = null;
     }
 
     // Update is called once per frame
     void Update()
     {
+      if(selectedInstruction != null && (Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Delete))){
+        instructions.RemoveAt(selectedInstruction.index);
+        updatePositions(selectedInstruction.index);
+        Destroy(selectedInstruction.gameObject);
+      }
+    }
 
+    void updatePositions(int startIndex){
+      for(int j = startIndex; j < instructions.Count; j++){
+        Instruction i = instructions[j];
+
+        i.index = j;
+
+        Transform tr = i.gameObject.transform;
+        Vector3 newPos = new Vector3(tr.position.x, tr.position.y + 65, tr.position.z);
+
+        tr.position = newPos;
+      }
     }
 
     public void read(){
-      Debug.Log("read");
       addInstructionToList("Read");
     }
 
     public void write(){
-      Debug.Log("write");
       addInstructionToList("Write");
     }
 
     public void left(){
-      Debug.Log("left");
       addInstructionToList("Left");
     }
 
     public void right(){
-      Debug.Log("right");
       addInstructionToList("Right");
     }
 
+    public void selectInstruction(Instruction inst){
+      selectedInstruction = inst;
+    }
+
     public void addInstructionToList(string instruction){
-      instructions.Add(instruction);
+      content.sizeDelta = new Vector2(0, 60 * (instructions.Count + 1));
 
-      content.sizeDelta = new Vector2(0, 60 * instructions.Count);
-
-      float spawnY = -1 * (485 - (65 * instructions.Count));
+      float spawnY = 485 - (65 * (instructions.Count + 1));
       float spawnX = 0f;
-      Vector3 pos = new Vector3(spawnX, -spawnY, instructionListSpawnPoint.position.z);
+      Vector3 pos = new Vector3(spawnX, spawnY, instructionListSpawnPoint.position.z);
       GameObject spawnedInstruction = (GameObject)Instantiate(instructionObject, pos, instructionListSpawnPoint.rotation);
       spawnedInstruction.transform.SetParent(instructionListSpawnPoint, false);
+      spawnedInstruction.name = instruction + (instructions.Count);
 
       Instruction instructionComponent = spawnedInstruction.GetComponent<Instruction>();
+      instructions.Add(instructionComponent);
+
       instructionComponent.text.text = instruction;
+      instructionComponent.index = instructions.Count - 1;
+
+      Button instructionButton = spawnedInstruction.GetComponent<Button>();
+      instructionButton.onClick.AddListener(delegate {selectInstruction(instructionComponent);});
+
       switch(instruction){
         case "Read":
           instructionComponent.image.color = new Color32(250, 140, 22, 150);

@@ -14,7 +14,7 @@ public class UIHandler : MonoBehaviour
     public Transform instructionListSpawnPoint;
     public RectTransform content;
 
-    public Sprite readSprite;
+    public Sprite gotoSprite;
     public Sprite writeSprite;
     public Sprite leftSprite;
     public Sprite rightSprite;
@@ -31,7 +31,7 @@ public class UIHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      if(selectedInstruction != null && (Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Delete))){
+      if(selectedInstruction != null && (Input.GetKeyDown(KeyCode.Delete))){
         instructions.RemoveAt(selectedInstruction.index);
         updatePositions(selectedInstruction.index);
         Destroy(selectedInstruction.gameObject);
@@ -47,6 +47,7 @@ public class UIHandler : MonoBehaviour
         Instruction i = instructions[j];
 
         i.index = j;
+        i.text.text = (j + 1) + ") " + i.instructionType;
 
         RectTransform rt = i.gameObject.GetComponent<RectTransform>();
 
@@ -59,6 +60,10 @@ public class UIHandler : MonoBehaviour
 
     public void read(){
       addInstructionToList("Read");
+    }
+
+    public void go_to(){
+      addInstructionToList("Goto");
     }
 
     public void write(){
@@ -91,7 +96,7 @@ public class UIHandler : MonoBehaviour
       instructionComponent.instructionType = instruction;
       instructions.Add(instructionComponent);
 
-      instructionComponent.text.text = instruction;
+      instructionComponent.text.text = (instructions.Count) + ") " + instruction;
       instructionComponent.index = instructions.Count - 1;
 
       Button instructionButton = spawnedInstruction.GetComponent<Button>();
@@ -102,11 +107,12 @@ public class UIHandler : MonoBehaviour
       inputField.onValidateInput += delegate (string s, int i, char c) { return char.ToUpper(c); };
 
       switch(instruction){
-        case "Read":
+        case "Goto":
           instructionComponent.image.color = new Color32(250, 140, 22, 150);
-          instructionComponent.sprite.sprite = readSprite;
+          instructionComponent.sprite.sprite = gotoSprite;
 
-          inputField.placeholder.GetComponent<Text>().text = "Name";
+          inputField.placeholder.GetComponent<Text>().text = "Line";
+          inputField.contentType = InputField.ContentType.IntegerNumber;
 
           break;
         case "Write":

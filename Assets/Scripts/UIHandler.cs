@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class UIHandler : MonoBehaviour
 {
 
+    public Tape tape;
+
     public List<Instruction> instructions;
     public GameObject instructionObject;
     public Transform instructionListSpawnPoint;
@@ -36,16 +38,22 @@ public class UIHandler : MonoBehaviour
       }
     }
 
+    public void execute(){
+      StartCoroutine(tape.executeInstructions(instructions.ToArray()));
+    }
+
     void updatePositions(int startIndex){
       for(int j = startIndex; j < instructions.Count; j++){
         Instruction i = instructions[j];
 
         i.index = j;
 
-        Transform tr = i.gameObject.transform;
-        Vector3 newPos = new Vector3(tr.position.x, tr.position.y + 65, tr.position.z);
+        RectTransform rt = i.gameObject.GetComponent<RectTransform>();
 
-        tr.position = newPos;
+        Vector3 pos = rt.anchoredPosition;
+        pos = new Vector3(pos.x, pos.y + 65f, pos.z);
+
+        rt.anchoredPosition = pos;
       }
     }
 
@@ -80,6 +88,7 @@ public class UIHandler : MonoBehaviour
       spawnedInstruction.name = instruction + (instructions.Count);
 
       Instruction instructionComponent = spawnedInstruction.GetComponent<Instruction>();
+      instructionComponent.instructionType = instruction;
       instructions.Add(instructionComponent);
 
       instructionComponent.text.text = instruction;

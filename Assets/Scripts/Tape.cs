@@ -23,6 +23,26 @@ public class Tape : MonoBehaviour
 
     }
 
+    public IEnumerator executeInstructions(Instruction[] instructions){
+      foreach(Instruction i in instructions){
+        switch(i.instructionType){
+          case "Read":
+            Debug.Log(read());
+            break;
+          case "Write":
+            write(i.userContent);
+            break;
+          case "Left":
+            shiftLeft();
+            break;
+          case "Right":
+            shiftRight();
+            break;
+        }
+        yield return new WaitForSeconds(.5f);
+      }
+    }
+
     public bool write(string newVal){
       if(index >= 0 && index < tape.Length){
         tape[index].setVal(newVal);

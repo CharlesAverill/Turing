@@ -9,6 +9,7 @@ public class Instruction : MonoBehaviour
     public Text text;
     public Image image;
     public Image sprite;
+    public string instructionType;
     public string userContent;
     public int index;
 

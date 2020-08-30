@@ -8,13 +8,15 @@ public class Tape : MonoBehaviour
     public GameObject cellPrefab;
     public int index;
 
-    public Cell[] tape;
+    public string[] customTapeValues;
+
+    private Cell[] tape;
 
     // Start is called before the first frame update
     void Start()
     {
       index = 0;
-      tape = makeTapeFromArray(new string[]{"0", "1", "A", "B", "9"});
+      tape = makeTapeFromArray(customTapeValues);
     }
 
     // Update is called once per frame

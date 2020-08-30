@@ -1281,7 +1281,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 1738082485360120764, guid: 1a9814c3a9323c2beb523e2413f77bb9, type: 3}
   index: 0
-  tape: []
+  customTapeValues:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
 --- !u!1 &1529783280
 GameObject:
   m_ObjectHideFlags: 0

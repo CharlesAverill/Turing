@@ -72,7 +72,7 @@ public class UIHandler : MonoBehaviour
     public void addInstructionToList(string instruction){
       content.sizeDelta = new Vector2(0, 60 * (instructions.Count + 1));
 
-      float spawnY = 485 - (65 * (instructions.Count + 1));
+      float spawnY = 495 - (65 * (instructions.Count + 1));
       float spawnX = 0f;
       Vector3 pos = new Vector3(spawnX, spawnY, instructionListSpawnPoint.position.z);
       GameObject spawnedInstruction = (GameObject)Instantiate(instructionObject, pos, instructionListSpawnPoint.rotation);

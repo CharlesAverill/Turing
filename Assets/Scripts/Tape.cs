@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tape : MonoBehaviour
 {
@@ -19,10 +20,13 @@ public class Tape : MonoBehaviour
     private Cell[] tape;
     private bool interruptFlag;
 
+    public bool executing;
+
     // Start is called before the first frame update
     void OnEnable()
     {
       index = 0;
+      executing = false;
       if(customTapeValues.Length > 0){
         tape = makeTapeFromArray(customTapeValues);
         if(fillWithRandoms){
@@ -65,40 +69,28 @@ public class Tape : MonoBehaviour
 
     public IEnumerator executeInstructions(Instruction[] instructions){
       yield return StartCoroutine(reinitialize());
-      for(int j = 0; j < instructions.Length; j++){
+      executing = true;
+      if(!interruptFlag){
+        for(int j = 0; j < instructions.Length; j++){
 
-        if(interruptFlag){
-          interruptFlag = false;
-          break;
-        }
-
-        Instruction i = instructions[j];
-
-        bool breakLoop = false;
-
-        switch(i.instructionType){
-          case "Goto":
-            zoom.Play();
-
-            if(i.userContent.Length > 0){
-              int newIndex = Int32.Parse(i.userContent);
-
-              if(newIndex >= 0 && newIndex < instructions.Length){
-                j = newIndex - 1;
-              }
-              else{
-                breakLoop = true;
-              }
-            }
-            else{
-              breakLoop = true;
-            }
-
+          if(interruptFlag){
+            interruptFlag = false;
             break;
-          case "GotoIf":
-            zoom.Play();
+          }
 
-            if(read() == i.extraUserContent){
+          Instruction i = instructions[j];
+          Button b = i.GetComponent<Button>();
+
+          ColorBlock cb = b.colors;
+          cb.normalColor = new Color32(128, 230, 255, 150);
+          b.colors = cb;
+
+          bool breakLoop = false;
+
+          switch(i.instructionType){
+            case "Goto":
+              zoom.Play();
+
               if(i.userContent.Length > 0){
                 int newIndex = Int32.Parse(i.userContent);
 
@@ -112,39 +104,64 @@ public class Tape : MonoBehaviour
               else{
                 breakLoop = true;
               }
-            }
-            break;
-          case "Break":
-            breakLoop = true;
-            break;
-          case "Write":
-            pencilScratch.Play();
 
-            write(i.userContent);
+              break;
+            case "GotoIf":
+              zoom.Play();
 
+              if(read() == i.extraUserContent){
+                if(i.userContent.Length > 0){
+                  int newIndex = Int32.Parse(i.userContent);
+
+                  if(newIndex >= 0 && newIndex < instructions.Length){
+                    j = newIndex - 1;
+                  }
+                  else{
+                    breakLoop = true;
+                  }
+                }
+                else{
+                  breakLoop = true;
+                }
+              }
+              break;
+            case "Break":
+              breakLoop = true;
+              break;
+            case "Write":
+              pencilScratch.Play();
+
+              write(i.userContent);
+
+              break;
+            case "Increment":
+              pencilScratch.Play();
+              increment();
+              break;
+            case "Left":
+              click.Play();
+
+              shiftLeft();
+
+              break;
+            case "Right":
+              shiftRight();
+
+              click.Play();
+
+              break;
+          }
+          yield return new WaitForSeconds(.5f);
+
+          cb.normalColor = Color.white;
+          b.colors = cb;
+
+          if(breakLoop){
             break;
-          case "Increment":
-            pencilScratch.Play();
-            increment();
-            break;
-          case "Left":
-            click.Play();
-
-            shiftLeft();
-
-            break;
-          case "Right":
-            shiftRight();
-
-            click.Play();
-
-            break;
-        }
-        yield return new WaitForSeconds(.5f);
-        if(breakLoop){
-          break;
+          }
         }
       }
+      executing = false;
     }
 
     public void increment(){

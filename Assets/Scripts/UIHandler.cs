@@ -41,6 +41,9 @@ public class UIHandler : MonoBehaviour
     }
 
     public void execute(){
+      if(tape.executing){
+        tape.interrupt();
+      }
       StartCoroutine(tape.executeInstructions(instructions.ToArray()));
     }
 

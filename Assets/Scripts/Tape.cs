@@ -54,10 +54,15 @@ public class Tape : MonoBehaviour
           case "Goto":
             zoom.Play();
 
-            int newIndex = Int32.Parse(i.userContent);
+            if(i.userContent.Length > 0){
+              int newIndex = Int32.Parse(i.userContent);
 
-            if(newIndex >= 0 && newIndex < instructions.Length){
-              j = newIndex - 2;
+              if(newIndex >= 0 && newIndex < instructions.Length){
+                j = newIndex - 1;
+              }
+              else{
+                breakLoop = true;
+              }
             }
             else{
               breakLoop = true;
@@ -67,24 +72,34 @@ public class Tape : MonoBehaviour
           case "GotoIf":
             zoom.Play();
 
-            Debug.Log(read() + ":" + i.extraUserContent);
-
             if(read() == i.extraUserContent){
-              int newIndex1 = Int32.Parse(i.userContent);
+              if(i.userContent.Length > 0){
+                int newIndex = Int32.Parse(i.userContent);
 
-              if(newIndex1 >= 0 && newIndex1 < instructions.Length){
-                j = newIndex1 - 2;
+                if(newIndex >= 0 && newIndex < instructions.Length){
+                  j = newIndex - 1;
+                }
+                else{
+                  breakLoop = true;
+                }
               }
               else{
                 breakLoop = true;
               }
             }
             break;
+          case "Break":
+            breakLoop = true;
+            break;
           case "Write":
             pencilScratch.Play();
 
             write(i.userContent);
 
+            break;
+          case "Increment":
+            pencilScratch.Play();
+            increment();
             break;
           case "Left":
             click.Play();
@@ -106,9 +121,42 @@ public class Tape : MonoBehaviour
       }
     }
 
+    public void increment(){
+      string val = read().ToUpper();
+
+      if(val.Length < 1){
+        return;
+      }
+
+      string nums = "0123456789";
+      string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+      int nIndex = nums.IndexOf(val);
+      int cIndex = chars.IndexOf(val);
+
+      Debug.Log(val);
+      Debug.Log(nIndex + ":" + cIndex);
+
+      if(nIndex != -1){
+        int newVal = (Int32.Parse(val) + 1);
+        if(newVal > 9){
+          newVal = 0;
+        }
+        write("" + newVal);
+      }
+      else if(cIndex != 1){
+        if(cIndex + 1 >= chars.Length){
+          write("" + chars[0]);
+        }
+        else{
+          write("" + chars[cIndex + 1]);
+        }
+      }
+    }
+
     public bool write(string newVal){
       if(index >= 0 && index < tape.Length){
-        tape[index].setVal(newVal);
+        tape[index].setVal(("" + newVal).ToUpper());
         return true;
       }
       else{
@@ -117,7 +165,12 @@ public class Tape : MonoBehaviour
     }
 
     public string read(){
-      return tape[index].val;
+      try{
+        return tape[index].val;
+      }
+      catch{
+        return "";
+      }
     }
 
     public void shiftLeft(){

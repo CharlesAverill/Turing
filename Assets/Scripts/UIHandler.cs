@@ -18,6 +18,8 @@ public class UIHandler : MonoBehaviour
     public Sprite writeSprite;
     public Sprite leftSprite;
     public Sprite rightSprite;
+    public Sprite breakSprite;
+    public Sprite incrementSprite;
 
     public Instruction selectedInstruction;
 
@@ -70,8 +72,16 @@ public class UIHandler : MonoBehaviour
       addInstructionToList("GotoIf");
     }
 
+    public void br(){
+      addInstructionToList("Break");
+    }
+
     public void write(){
       addInstructionToList("Write");
+    }
+
+    public void increment(){
+      addInstructionToList("Increment");
     }
 
     public void left(){
@@ -100,7 +110,7 @@ public class UIHandler : MonoBehaviour
       instructionComponent.instructionType = instruction;
       instructions.Add(instructionComponent);
 
-      instructionComponent.text.text = (instructions.Count) + ") " + instruction;
+      instructionComponent.text.text = (instructions.Count - 1) + ") " + instruction;
       instructionComponent.index = instructions.Count - 1;
 
       Button instructionButton = spawnedInstruction.GetComponent<Button>();
@@ -113,7 +123,7 @@ public class UIHandler : MonoBehaviour
 
       switch(instruction){
         case "Goto":
-          instructionComponent.image.color = new Color32(250, 140, 22, 150);
+          instructionComponent.image.color = new Color32(84, 13, 110, 150);
           instructionComponent.sprite.sprite = gotoSprite;
 
           inputField.placeholder.GetComponent<Text>().text = "Line";
@@ -123,7 +133,7 @@ public class UIHandler : MonoBehaviour
 
           break;
         case "GotoIf":
-          instructionComponent.image.color = new Color32(250, 140, 22, 150);
+          instructionComponent.image.color = new Color32(255, 210, 63, 150);
           instructionComponent.sprite.sprite = gotoSprite;
 
           inputField.placeholder.GetComponent<Text>().text = "Line";
@@ -132,16 +142,33 @@ public class UIHandler : MonoBehaviour
           second.placeholder.GetComponent<Text>().text = "Symbol";
 
           break;
+        case "Break":
+          instructionComponent.image.color = new Color32(255, 0, 0, 150);
+          instructionComponent.sprite.sprite = breakSprite;
+
+          inputField.gameObject.SetActive(false);
+          second.gameObject.SetActive(false);
+
+          break;
         case "Write":
-          instructionComponent.image.color = new Color32(138, 224, 49, 150);
+          instructionComponent.image.color = new Color32(59, 206, 172, 150);
           instructionComponent.sprite.sprite = writeSprite;
 
           inputField.placeholder.GetComponent<Text>().text = "Value";
+          inputField.characterLimit = 1;
+          second.gameObject.SetActive(false);
+
+          break;
+        case "Increment":
+          instructionComponent.image.color = new Color32(14, 173, 105, 150);
+          instructionComponent.sprite.sprite = incrementSprite;
+          
+          inputField.gameObject.SetActive(false);
           second.gameObject.SetActive(false);
 
           break;
         case "Left":
-          instructionComponent.image.color = new Color32(22, 189, 250, 150);
+          instructionComponent.image.color = new Color32(25, 123, 189, 150);
           instructionComponent.sprite.sprite = leftSprite;
 
           inputField.gameObject.SetActive(false);
@@ -149,7 +176,7 @@ public class UIHandler : MonoBehaviour
 
           break;
         case "Right":
-          instructionComponent.image.color = new Color32(223, 35, 250, 150);
+          instructionComponent.image.color = new Color32(225, 132, 170, 200);
           instructionComponent.sprite.sprite = rightSprite;
 
           inputField.gameObject.SetActive(false);

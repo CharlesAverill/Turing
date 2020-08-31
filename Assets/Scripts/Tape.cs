@@ -9,6 +9,7 @@ public class Tape : MonoBehaviour
     public GameObject cellPrefab;
     public int index;
 
+    public bool fillWithRandoms = false;
     public string[] customTapeValues;
 
     public AudioSource click;
@@ -18,16 +19,26 @@ public class Tape : MonoBehaviour
     private Cell[] tape;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
       index = 0;
-      tape = makeTapeFromArray(customTapeValues);
+      if(customTapeValues.Length > 0){
+        tape = makeTapeFromArray(customTapeValues);
+        if(fillWithRandoms){
+          randomizeCellArray();
+        }
+      }
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    public void generateTape(string[] arr){
+      tape = makeTapeFromArray(arr);
+      StartCoroutine(reinitialize());
     }
 
     public IEnumerator reinitialize(){
@@ -40,11 +51,11 @@ public class Tape : MonoBehaviour
       }
 
       index = 0;
-      tape = makeTapeFromArray(customTapeValues);
     }
 
     public IEnumerator executeInstructions(Instruction[] instructions){
       yield return StartCoroutine(reinitialize());
+      tape = makeTapeFromArray(customTapeValues);
       for(int j = 0; j < instructions.Length; j++){
         Instruction i = instructions[j];
 
@@ -190,7 +201,7 @@ public class Tape : MonoBehaviour
     public Cell[] makeTapeOfLengthN(int n){
       Cell[] output = new Cell[n];
       for(int i = 0; i < n; i++){
-        Vector3 pos = new Vector3(i, transform.position.y, transform.position.z);
+        Vector3 pos = new Vector3(i, 0, transform.position.z);
 
         GameObject cellI = (GameObject)Instantiate(cellPrefab, pos, transform.rotation);
         cellI.transform.SetParent(transform, false);
@@ -207,7 +218,7 @@ public class Tape : MonoBehaviour
     public Cell[] makeTapeFromArray(string[] arr){
       Cell[] output = new Cell[arr.Length];
       for(int i = 0; i < arr.Length; i++){
-        Vector3 pos = new Vector3(i, transform.position.y, transform.position.z);
+        Vector3 pos = new Vector3(i, 0, transform.position.z);
 
         GameObject cellI = (GameObject)Instantiate(cellPrefab, pos, transform.rotation);
         cellI.transform.SetParent(transform, false);
@@ -219,5 +230,14 @@ public class Tape : MonoBehaviour
         output[i] = cellComponent;
       }
       return output;
+    }
+
+    public void randomizeCellArray(){
+      string chars = "                  0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+      for(int i = 0; i < tape.Length; i++){
+        tape[i].setVal("" + chars[UnityEngine.Random.Range(0, chars.Length - 1)]);
+        Debug.Log(tape[i].val);
+      }
     }
 }

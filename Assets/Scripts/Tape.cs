@@ -17,6 +17,7 @@ public class Tape : MonoBehaviour
     public AudioSource zoom;
 
     private Cell[] tape;
+    private bool interruptFlag;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -36,12 +37,16 @@ public class Tape : MonoBehaviour
 
     }
 
-    public void generateTape(string[] arr){
-      tape = makeTapeFromArray(arr);
-      StartCoroutine(reinitialize());
+    public void interrupt(){
+      interruptFlag = true;
     }
 
-    public IEnumerator reinitialize(){
+    public void generateTape(string[] arr){
+      tape = makeTapeFromArray(arr);
+      StartCoroutine(destroy());
+    }
+
+    public IEnumerator destroy(){
       transform.position = new Vector3(transform.position.x + index, transform.position.y, transform.position.z);
 
       yield return new WaitForSeconds(.25f);
@@ -53,10 +58,20 @@ public class Tape : MonoBehaviour
       index = 0;
     }
 
+    public IEnumerator reinitialize(){
+      yield return StartCoroutine(destroy());
+      tape = makeTapeFromArray(customTapeValues);
+    }
+
     public IEnumerator executeInstructions(Instruction[] instructions){
       yield return StartCoroutine(reinitialize());
-      tape = makeTapeFromArray(customTapeValues);
       for(int j = 0; j < instructions.Length; j++){
+
+        if(interruptFlag){
+          interruptFlag = false;
+          break;
+        }
+
         Instruction i = instructions[j];
 
         bool breakLoop = false;

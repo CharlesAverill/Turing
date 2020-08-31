@@ -44,6 +44,15 @@ public class UIHandler : MonoBehaviour
       StartCoroutine(tape.executeInstructions(instructions.ToArray()));
     }
 
+    public void interrupt(){
+      tape.interrupt();
+    }
+
+    public void reset(){
+      interrupt();
+      StartCoroutine(tape.reinitialize());
+    }
+
     void updatePositions(int startIndex){
       for(int j = startIndex; j < instructions.Count; j++){
         Instruction i = instructions[j];
@@ -162,7 +171,7 @@ public class UIHandler : MonoBehaviour
         case "Increment":
           instructionComponent.image.color = new Color32(14, 173, 105, 150);
           instructionComponent.sprite.sprite = incrementSprite;
-          
+
           inputField.gameObject.SetActive(false);
           second.gameObject.SetActive(false);
 

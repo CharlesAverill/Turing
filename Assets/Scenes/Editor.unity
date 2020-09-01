@@ -3561,19 +3561,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.size
-      value: 12
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.data[0]
-      value: 
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.data[1]
-      value: 
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.data[2]
-      value: 
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.data[3]
@@ -3581,11 +3581,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.data[4]
-      value: 
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.data[5]
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.data[6]

@@ -107,6 +107,9 @@ public class Tape : MonoBehaviour
               }
 
               break;
+            case "Comment":
+              zoom.Play();
+              break;
             case "GotoIf":
               zoom.Play();
 
@@ -139,6 +142,10 @@ public class Tape : MonoBehaviour
               pencilScratch.Play();
               increment();
               break;
+            case "Decrement":
+              pencilScratch.Play();
+              decrement();
+              break;
             case "Left":
               click.Play();
 
@@ -152,7 +159,7 @@ public class Tape : MonoBehaviour
 
               break;
           }
-          yield return new WaitForSeconds(.5f);
+          yield return new WaitForSeconds(.1f);
 
           cb.normalColor = Color.white;
           b.colors = cb;
@@ -194,6 +201,39 @@ public class Tape : MonoBehaviour
         }
         else{
           write("" + chars[cIndex + 1]);
+        }
+      }
+    }
+
+    public void decrement(){
+      string val = read().ToUpper();
+
+      if(val.Length < 1){
+        return;
+      }
+
+      string nums = "0123456789";
+      string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+      int nIndex = nums.IndexOf(val);
+      int cIndex = chars.IndexOf(val);
+
+      Debug.Log(val);
+      Debug.Log(nIndex + ":" + cIndex);
+
+      if(nIndex != -1){
+        int newVal = (Int32.Parse(val) - 1);
+        if(newVal < 0){
+          newVal = 9;
+        }
+        write("" + newVal);
+      }
+      else if(cIndex != -1){
+        if(cIndex - 1 < 0){
+          write("" + chars[chars.Length - 1]);
+        }
+        else{
+          write("" + chars[cIndex - 1]);
         }
       }
     }

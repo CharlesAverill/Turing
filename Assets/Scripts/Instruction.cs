@@ -39,4 +39,14 @@ public class Instruction : MonoBehaviour
     public void setExtraContent(Text newContent){
       extraUserContent = newContent.text;
     }
+
+    public void setContentString(string newString){
+      first.text = newString;
+      userContent = newString;
+    }
+
+    public void setExtraContentString(string newString){
+      second.text = newString;
+      extraUserContent = newString;
+    }
 }

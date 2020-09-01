@@ -1,0 +1,70 @@
+# Check if X is 0
+gotoif 7 1
+right
+gotoif 2 0
+gotoif 7 1
+break
+# Goto beginning of tape
+left
+gotoif 7 0
+gotoif 7 1
+gotoif 7 B
+right
+# Start subtract (1s compliment)
+gotoif 16 0
+gotoif 19 1
+goto 22
+write 1
+right
+goto 13
+write 0
+right
+goto 13
+left
+# Sub-Add
+gotoif 31 0
+gotoif 28 1
+gotoif 31 B
+break
+write 0
+left
+goto 24
+write 1
+# Back to Subtract (2nd 1s complement)
+left
+gotoif 33 0
+gotoif 33 1
+gotoif 33 B
+right
+gotoif 41 0
+gotoif 44 1
+goto 47
+write 1
+right
+goto 38
+write 0
+right
+goto 38
+left
+# Subtract is completed, goto end of Y
+gotoif 52 0
+gotoif 52 1
+gotoif 54 %
+right
+goto 49
+left
+# Add to Y
+gotoif 62 0
+gotoif 59 1
+goto 62
+write 0
+left
+goto 56
+write 1
+# Goto beginning of tape
+left
+gotoif 64 0
+gotoif 64 1
+gotoif 64 B
+right
+goto 1

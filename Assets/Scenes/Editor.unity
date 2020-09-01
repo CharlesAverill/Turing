@@ -1066,7 +1066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tape: {fileID: 1366712257}
-  readFromFile: 1
+  readFromFile: 0
   instructions: []
   instructionObject: {fileID: 930138756601886421, guid: b83c2f391af0c8e8bb60d3910920dd08, type: 3}
   instructionListSpawnPoint: {fileID: 97353664}
@@ -3987,7 +3987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.size
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.data[0]
@@ -3995,7 +3995,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.data[1]
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.data[2]
@@ -4003,19 +4003,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.data[3]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
-      propertyPath: customTapeValues.Array.data[4]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
-      propertyPath: customTapeValues.Array.data[5]
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
-      propertyPath: customTapeValues.Array.data[6]
+      propertyPath: customTapeValues.Array.data[4]
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
+      propertyPath: customTapeValues.Array.data[5]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
+      propertyPath: customTapeValues.Array.data[6]
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6886864038731774345, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
       propertyPath: customTapeValues.Array.data[7]

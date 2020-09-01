@@ -36,7 +36,7 @@ public class UIHandler : MonoBehaviour
 
 
       if(readFromFile){
-          FileInfo theSourceFile = new FileInfo("Assets/Resources/adder.txt");
+          FileInfo theSourceFile = new FileInfo("Assets/Resources/is_binary_palindrome.txt");
           StreamReader reader = theSourceFile.OpenText();
 
           string line = "";
@@ -74,7 +74,7 @@ public class UIHandler : MonoBehaviour
               case "write":
                 Instruction cpmw = addInstructionToList("Write");
                 if(words.Length > 1){
-                  cpmw.setContentString(words[1]);
+                  cpmw.setContentString(words[1].Replace("B", ""));
                 }
                 break;
               case "increment":

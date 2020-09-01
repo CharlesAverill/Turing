@@ -1,0 +1,54 @@
+gotoif 3 0
+gotoif 18 1
+# First char is a 0
+write B
+right
+gotoif 4 0
+gotoif 4 1
+left
+gotoif 33 B # Accept
+gotoif 11 0 # First-Last chars match
+goto 44 # Reject
+write B
+left
+gotoif 12 0
+gotoif 12 1
+right
+goto 0
+# First char is a 1
+write B
+right
+gotoif 19 0
+gotoif 19 1
+left
+gotoif 33 B # Accept
+gotoif 26 1
+goto 44 # Reject
+write B
+left
+gotoif 27 0
+gotoif 27 1
+right
+goto 0
+# Accept
+left
+gotoif 33 0
+gotoif 33 1
+gotoif 33 B
+right
+write 1
+gotoif 37 0
+gotoif 37 1
+gotoif 37 B
+break
+# Reject
+left
+gotoif 44 0
+gotoif 44 1
+gotoif 44 B
+right
+write 0
+gotoif 48 0
+gotoif 48 1
+gotoif 48 B
+break

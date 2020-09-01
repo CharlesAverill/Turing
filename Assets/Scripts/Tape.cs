@@ -65,6 +65,7 @@ public class Tape : MonoBehaviour
     public IEnumerator reinitialize(){
       yield return StartCoroutine(destroy());
       tape = makeTapeFromArray(customTapeValues);
+      interruptFlag = false;
     }
 
     public IEnumerator executeInstructions(Instruction[] instructions){
@@ -212,7 +213,7 @@ public class Tape : MonoBehaviour
         return tape[index].val;
       }
       catch{
-        return "";
+        return "%";
       }
     }
 

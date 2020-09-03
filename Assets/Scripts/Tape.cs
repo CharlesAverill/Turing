@@ -16,9 +16,11 @@ public class Tape : MonoBehaviour
     public AudioSource click;
     public AudioSource pencilScratch;
     public AudioSource zoom;
+    public AudioSource correct;
+    public AudioSource incorrect;
 
     private Cell[] tape;
-    private bool interruptFlag;
+    public bool interruptFlag;
 
     public bool executing;
 
@@ -47,35 +49,37 @@ public class Tape : MonoBehaviour
 
     public void generateTape(string[] arr){
       tape = makeTapeFromArray(arr);
-      StartCoroutine(destroy());
+      destroy();
     }
 
-    public IEnumerator destroy(){
+    public void destroy(){
       transform.position = new Vector3(transform.position.x + index, transform.position.y, transform.position.z);
 
-      yield return new WaitForSeconds(.25f);
-
-      foreach(Cell c in tape){
-        Destroy(c.gameObject);
+      if(tape != null){
+        foreach(Cell c in tape){
+          Destroy(c.gameObject);
+        }
       }
 
       index = 0;
     }
 
-    public IEnumerator reinitialize(){
-      yield return StartCoroutine(destroy());
+    public void reinitialize(){
+      destroy();
       tape = makeTapeFromArray(customTapeValues);
       interruptFlag = false;
     }
 
     public IEnumerator executeInstructions(Instruction[] instructions){
-      yield return StartCoroutine(reinitialize());
+      reinitialize();
       executing = true;
+
+      bool breakLoop = false;
+
       if(!interruptFlag){
         for(int j = 0; j < instructions.Length; j++){
 
           if(interruptFlag){
-            interruptFlag = false;
             break;
           }
 
@@ -85,8 +89,6 @@ public class Tape : MonoBehaviour
           ColorBlock cb = b.colors;
           cb.normalColor = new Color32(128, 230, 255, 150);
           b.colors = cb;
-
-          bool breakLoop = false;
 
           switch(i.instructionType){
             case "Goto":
@@ -172,6 +174,14 @@ public class Tape : MonoBehaviour
       executing = false;
     }
 
+    public string[] getValues(){
+      string[] output = new string[tape.Length];
+      for(int i = 0; i < output.Length; i++){
+        output[i] = tape[i].val;
+      }
+      return output;
+    }
+
     public void increment(){
       string val = read().ToUpper();
 
@@ -184,9 +194,6 @@ public class Tape : MonoBehaviour
 
       int nIndex = nums.IndexOf(val);
       int cIndex = chars.IndexOf(val);
-
-      Debug.Log(val);
-      Debug.Log(nIndex + ":" + cIndex);
 
       if(nIndex != -1){
         int newVal = (Int32.Parse(val) + 1);
@@ -217,9 +224,6 @@ public class Tape : MonoBehaviour
 
       int nIndex = nums.IndexOf(val);
       int cIndex = chars.IndexOf(val);
-
-      Debug.Log(val);
-      Debug.Log(nIndex + ":" + cIndex);
 
       if(nIndex != -1){
         int newVal = (Int32.Parse(val) - 1);

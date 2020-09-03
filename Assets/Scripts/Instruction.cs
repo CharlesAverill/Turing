@@ -20,16 +20,25 @@ public class Instruction : MonoBehaviour
 
     public int index;
 
+    private bool canMove;
+
     // Start is called before the first frame update
     void Start()
     {
-
+      canMove = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+      if(first.isFocused || second.isFocused){
+        canMove = false;
+        CameraController.cc.canMove = false;
+      }
+      else if(!canMove){
+        canMove = true;
+        CameraController.cc.canMove = true;
+      }
     }
 
     public void setContent(Text newContent){

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TitleScreenHandler : MonoBehaviour
 {
@@ -18,10 +17,6 @@ public class TitleScreenHandler : MonoBehaviour
     void Update()
     {
 
-    }
-
-    public void loadEditor(){
-      SceneManager.LoadSceneAsync("Editor");
     }
 
     public void quit(){

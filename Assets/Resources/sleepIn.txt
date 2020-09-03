@@ -1,0 +1,15 @@
+gotoif 8 0
+right
+gotoif 8 1
+left
+write :
+right
+write (
+break
+left
+gotoif 8 0
+gotoif 8 1
+right
+write :
+right
+write )

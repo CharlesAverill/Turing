@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +10,7 @@ public class UIHandler : MonoBehaviour
 
     public Tape tape;
 
-    public bool readFromFile = false;
+    public string filename = null;
 
     public List<Instruction> instructions;
     public GameObject instructionObject;
@@ -34,57 +33,8 @@ public class UIHandler : MonoBehaviour
       instructions = new List<Instruction>();
       selectedInstruction = null;
 
-
-      if(readFromFile){
-          FileInfo theSourceFile = new FileInfo("Assets/Resources/is_binary_palindrome.txt");
-          StreamReader reader = theSourceFile.OpenText();
-
-          string line = "";
-
-          while(reader.Peek() > 0){
-            line = reader.ReadLine();
-            if(line.Length < 1){
-              continue;
-            }
-            string[] words = line.Split(' ');
-            if(words[0].Substring(0, 1) == "#"){
-              comment();
-              continue;
-            }
-            switch(words[0]){
-              case "left":
-                left();
-                break;
-              case "right":
-                right();
-                break;
-              case "goto":
-                Instruction cpmg = addInstructionToList("Goto");
-                cpmg.setContentString(words[1]);
-                Debug.Log(cpmg.userContent);
-                break;
-              case "gotoif":
-                Instruction cpmgi = addInstructionToList("GotoIf");
-                cpmgi.setContentString(words[1]);
-                cpmgi.setExtraContentString(words[2].Replace("B", ""));
-                break;
-              case "break":
-                br();
-                break;
-              case "write":
-                Instruction cpmw = addInstructionToList("Write");
-                if(words.Length > 1){
-                  cpmw.setContentString(words[1].Replace("B", ""));
-                }
-                break;
-              case "increment":
-                increment();
-                break;
-              case "decrement":
-                decrement();
-                break;
-            }
-          }
+      if(filename != null){
+        fileToUI(filename);
       }
     }
 
@@ -98,11 +48,89 @@ public class UIHandler : MonoBehaviour
       }
     }
 
+    void fileToUI(string filename){
+      FileInfo theSourceFile = new FileInfo("Assets/Resources/" + filename);
+      StreamReader reader = theSourceFile.OpenText();
+
+      string line = "";
+
+      while(reader.Peek() > 0){
+        line = reader.ReadLine();
+        if(line.Length < 1){
+          continue;
+        }
+        string[] words = line.Split(' ');
+        if(words[0].Substring(0, 1) == "#"){
+          comment();
+          continue;
+        }
+        switch(words[0]){
+          case "left":
+            left();
+            break;
+          case "right":
+            right();
+            break;
+          case "goto":
+            Instruction cpmg = addInstructionToList("Goto");
+            cpmg.setContentString(words[1]);
+            break;
+          case "gotoif":
+            Instruction cpmgi = addInstructionToList("GotoIf");
+            cpmgi.setContentString(words[1]);
+            cpmgi.setExtraContentString(words[2].Replace("B", ""));
+            break;
+          case "break":
+            br();
+            break;
+          case "write":
+            Instruction cpmw = addInstructionToList("Write");
+            if(words.Length > 1){
+              cpmw.setContentString(words[1].Replace("B", ""));
+            }
+            break;
+          case "increment":
+            increment();
+            break;
+          case "decrement":
+            decrement();
+            break;
+        }
+      }
+    }
+
     public void execute(){
+      StartCoroutine(executeEnum());
+    }
+
+    IEnumerator executeEnum(){
       if(tape.executing){
         tape.interrupt();
       }
+      LevelHandler.lh.loadTapeN(0);
       StartCoroutine(tape.executeInstructions(instructions.ToArray()));
+      while(tape.executing){
+        yield return null;
+      }
+      if(!tape.interruptFlag){
+        while(tape.click.isPlaying || tape.pencilScratch.isPlaying || tape.zoom.isPlaying){
+          yield return null;
+        }
+        if(LevelHandler.lh.validateAnswer()){
+          tape.correct.Play();
+          while(tape.correct.isPlaying){
+            yield return null;
+          }
+          while(LevelHandler.lh.loadNextTape()){
+            //execute();
+          }
+          Debug.Log("Level complete!");
+        }
+        else{
+          tape.incorrect.Play();
+          LevelHandler.lh.loadTapeN(0);
+        }
+      }
     }
 
     public void interrupt(){
@@ -110,8 +138,16 @@ public class UIHandler : MonoBehaviour
     }
 
     public void reset(){
-      interrupt();
-      StartCoroutine(tape.reinitialize());
+      StartCoroutine(resetEnum());
+    }
+
+    IEnumerator resetEnum(){
+      tape.interrupt();
+      while(tape.executing){
+        Debug.Log("waiting");
+        yield return null;
+      }
+      tape.reinitialize();
     }
 
     void updatePositions(int startIndex){
@@ -119,7 +155,7 @@ public class UIHandler : MonoBehaviour
         Instruction i = instructions[j];
 
         i.index = j;
-        i.text.text = (j + 1) + ") " + i.instructionType;
+        i.text.text = j + ") " + i.instructionType;
 
         RectTransform rt = i.gameObject.GetComponent<RectTransform>();
 

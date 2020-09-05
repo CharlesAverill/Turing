@@ -12,6 +12,7 @@ public class LevelHandler : MonoBehaviour
 
     private List<Level> levels;
     public Level toLoad;
+    public int levelIndex = -1;
 
     public int scenesLoaded = 0;
 
@@ -84,7 +85,7 @@ public class LevelHandler : MonoBehaviour
         Destroy(currentTape.gameObject);
       }
 
-      if(currentTapeIndex >= toLoad.tapes.Count){
+      if(currentTapeIndex + 1 >= toLoad.tapes.Count){
         return false;
       }
 
@@ -121,6 +122,7 @@ public class LevelHandler : MonoBehaviour
 
     public void loadLevel(int n){
       toLoad = levels[n - 1].copy();
+      levelIndex = n;
       loadEditor();
     }
 

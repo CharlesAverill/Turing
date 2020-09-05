@@ -99,7 +99,10 @@ public class UIHandler : MonoBehaviour
       }
     }
 
+    bool interruptFlag = false;
+
     public void execute(){
+      interruptFlag = false;
       StartCoroutine(executeEnum());
     }
 
@@ -107,44 +110,66 @@ public class UIHandler : MonoBehaviour
       if(tape.executing){
         tape.interrupt();
       }
-      LevelHandler.lh.loadTapeN(0);
-      StartCoroutine(tape.executeInstructions(instructions.ToArray()));
       while(tape.executing){
         yield return null;
       }
-      if(!tape.interruptFlag){
-        while(tape.click.isPlaying || tape.pencilScratch.isPlaying || tape.zoom.isPlaying){
+      StartCoroutine(tape.executeInstructions(instructions.ToArray()));
+    }
+
+    public void submit(){
+      interrupt();
+      StartCoroutine(submitEnum());
+    }
+
+    IEnumerator submitEnum(){
+      LevelHandler.lh.currentTapeIndex = -1;
+      Debug.Log(LevelHandler.lh.toLoad.levelName);
+      bool incorrect = false;
+      interruptFlag = false;
+
+      while(LevelHandler.lh.loadNextTape()){
+        if(interruptFlag){
+          break;
+        }
+        Debug.Log(LevelHandler.lh.currentTapeIndex);
+        StartCoroutine(tape.executeInstructions(instructions.ToArray()));
+        while(tape.executing){
           yield return null;
         }
-        if(LevelHandler.lh.validateAnswer()){
-          tape.correct.Play();
+        if(!LevelHandler.lh.validateAnswer()){
+          incorrect = true;
+          while(tape.incorrect.isPlaying){
+            yield return null;
+          }
+          Debug.Log("Failed on test " + (LevelHandler.lh.currentTapeIndex + 1));
+          break;
+        }
+        else{
           while(tape.correct.isPlaying){
             yield return null;
           }
-          while(LevelHandler.lh.loadNextTape()){
-            //execute();
-          }
-          Debug.Log("Level complete!");
+          Debug.Log("Test " + (LevelHandler.lh.currentTapeIndex + 1) + " complete!");
         }
-        else{
-          tape.incorrect.Play();
-          LevelHandler.lh.loadTapeN(0);
-        }
+      }
+
+      if(!incorrect && !interruptFlag){
+        Debug.Log("Level " + LevelHandler.lh.levelIndex + " complete!");
       }
     }
 
     public void interrupt(){
+      interruptFlag = true;
       tape.interrupt();
     }
 
     public void reset(){
       StartCoroutine(resetEnum());
+      interruptFlag = false;
     }
 
     IEnumerator resetEnum(){
       tape.interrupt();
       while(tape.executing){
-        Debug.Log("waiting");
         yield return null;
       }
       tape.reinitialize();

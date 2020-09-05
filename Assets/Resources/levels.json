@@ -2,15 +2,15 @@
   "levels": [
       {
         "levelName": "sleepIn",
-        "description": "The first bit is 1 if it is a weekday, and the second bit is 1 if we are on vacation. We sleep in if it is not a weekday or we're on vacation. Return 1 if we sleep in.",
+        "description": "The first bit is 1 if it is a weekday, and the second bit is 1 if we are on vacation. We sleep in if it is not a weekday or we're on vacation. Return :) if we sleep in, :( otherwise.",
         "tapes": [["0", "0"], ["0", "1"], ["1", "0"], ["1", "1"]],
-        "solutions": [[":", ")"], [":", "("], [":", ")"], [":", ")"]]
+        "solutions": [[":", ")"], [":", ")"], [":", "("], [":", ")"]]
       },
       {
         "levelName": "monkeyTrouble",
-        "description": "We have two monkeys, each represented by 1 bit. A monkey's bit will be 1 if it is smiling. We are in trouble if they are both smiling or if neither of them is smiling. Return 1 if we are in trouble.",
+        "description": "We have two monkeys, each represented by 1 bit. A monkey's bit will be 1 if it is smiling. We are in trouble if they are both smiling or if neither of them is smiling. Return :) if we are in trouble, :( otherwise.",
         "tapes": [["0", "0"], ["0", "1"], ["1", "0"], ["1", "1"]],
-        "solutions": [["1"], ["0"], ["0"], ["1"]]
+        "solutions": [[":", ")"], [":", "("], [":", "("], [":", ")"]]
       }
   ]
 }

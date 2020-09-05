@@ -171,6 +171,21 @@ public class Tape : MonoBehaviour
           }
         }
       }
+      while(click.isPlaying || pencilScratch.isPlaying || zoom.isPlaying){
+        yield return null;
+      }
+      if(!LevelHandler.lh.validateAnswer()){
+        incorrect.Play();
+        while(incorrect.isPlaying){
+          yield return null;
+        }
+      }
+      else{
+        correct.Play();
+        while(correct.isPlaying){
+          yield return null;
+        }
+      }
       executing = false;
     }
 

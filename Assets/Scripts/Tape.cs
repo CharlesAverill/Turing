@@ -9,6 +9,7 @@ public class Tape : MonoBehaviour
 
     public GameObject cellPrefab;
     public int index;
+    public float interval;
 
     public bool fillWithRandoms = false;
     public string[] customTapeValues;
@@ -28,6 +29,7 @@ public class Tape : MonoBehaviour
     void OnEnable()
     {
       index = 0;
+      interval = 0.5f;
       executing = false;
       if(customTapeValues.Length > 0){
         tape = makeTapeFromArray(customTapeValues);
@@ -41,6 +43,18 @@ public class Tape : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void speedUp(){
+      if(interval > 0.3f && executing){
+        interval -= 0.3f;
+      }
+    }
+
+    public void slowDown(){
+      if(interval < 1.3f && executing){
+        interval += 0.3f;
+      }
     }
 
     public void interrupt(){
@@ -161,7 +175,7 @@ public class Tape : MonoBehaviour
 
               break;
           }
-          yield return new WaitForSeconds(.1f);
+          yield return new WaitForSeconds(interval);
 
           cb.normalColor = Color.white;
           b.colors = cb;
@@ -206,7 +220,7 @@ public class Tape : MonoBehaviour
         if(cIndex + 1 >= chars.Length){
           write("" + chars[0]);
         }
-        else{
+        else {
           write("" + chars[cIndex + 1]);
         }
       }

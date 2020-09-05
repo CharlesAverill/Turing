@@ -25,6 +25,9 @@ public class UIHandler : MonoBehaviour
     public Sprite incrementSprite;
     public Sprite decrementSprite;
 
+    public Sprite increaseSpeed;
+    public Sprite decreaseSpeed;
+
     public Instruction selectedInstruction;
 
     // Start is called before the first frame update
@@ -41,7 +44,8 @@ public class UIHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      if(selectedInstruction != null && (Input.GetKeyDown(KeyCode.Delete))){
+      //Include backspace to delete for Mac users
+      if(selectedInstruction != null && (Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace))){
         instructions.RemoveAt(selectedInstruction.index);
         updatePositions(selectedInstruction.index);
         Destroy(selectedInstruction.gameObject);
@@ -99,6 +103,13 @@ public class UIHandler : MonoBehaviour
       }
     }
 
+    public void speedUp(){
+      tape.speedUp();
+    }
+    public void slowDown(){
+      tape.slowDown();
+    }
+    
     public void execute(){
       StartCoroutine(executeEnum());
     }

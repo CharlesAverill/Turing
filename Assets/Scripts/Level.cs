@@ -6,10 +6,10 @@ using UnityEngine;
 // LevelsRoot myDeserializedClass = JsonConvert.DeserializeObject<LevelsRoot>(myJsonResponse);
 [Serializable]
 public class Level    {
-    public string levelName;
-    public string description;
-    public List<List<string>> tapes;
-    public List<List<string>> solutions;
+    public string levelName { get; set; }
+    public string description { get; set; }
+    public List<List<string>> tapes { get; set; }
+    public List<List<string>> solutions { get; set; }
 
     public Level(string ln, string d, List<List<string>> t, List<List<string>> s){
       levelName = ln;

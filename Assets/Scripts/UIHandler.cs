@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
+using static InstructionType;
 
 public class UIHandler : MonoBehaviour
 {
@@ -60,40 +61,41 @@ public class UIHandler : MonoBehaviour
           continue;
         }
         string[] words = line.Split(' ');
-        if(words[0].Substring(0, 1) == "#"){
-          comment();
+        if(words[0].Substring(0, 1) == "#")
+        {
+          addInstructionToList(Comment);
           continue;
         }
         switch(words[0]){
           case "left":
-            left();
+            addInstructionToList(Left);
             break;
           case "right":
-            right();
+            addInstructionToList(Right);
             break;
           case "goto":
-            Instruction cpmg = addInstructionToList("Goto");
-            cpmg.setContentString(words[1]);
+            Instruction cpmg = addInstructionToList(Goto);
+            cpmg.UserContent = words[1];
             break;
           case "gotoif":
-            Instruction cpmgi = addInstructionToList("GotoIf");
-            cpmgi.setContentString(words[1]);
-            cpmgi.setExtraContentString(words[2].Replace("B", ""));
+            Instruction cpmgi = addInstructionToList(GotoIf);
+            cpmgi.UserContent = words[1];
+            cpmgi.ExtraUserContent = words[2].Replace("B", "");
             break;
           case "break":
-            br();
+            addInstructionToList(Break);
             break;
           case "write":
-            Instruction cpmw = addInstructionToList("Write");
+            Instruction cpmw = addInstructionToList(Write);
             if(words.Length > 1){
-              cpmw.setContentString(words[1].Replace("B", ""));
+              cpmw.UserContent = words[1].Replace("B", "");
             }
             break;
           case "increment":
-            increment();
+            addInstructionToList(Increment);
             break;
           case "decrement":
-            decrement();
+            addInstructionToList(Decrement);
             break;
         }
       }
@@ -180,7 +182,7 @@ public class UIHandler : MonoBehaviour
         Instruction i = instructions[j];
 
         i.index = j;
-        i.text.text = j + ") " + i.instructionType;
+        i.text.text = j + ") " + i.InstructionType;
 
         RectTransform rt = i.gameObject.GetComponent<RectTransform>();
 
@@ -191,47 +193,11 @@ public class UIHandler : MonoBehaviour
       }
     }
 
-    public void go_to(){
-      addInstructionToList("Goto");
-    }
-
-    public void go_to_If(){
-      addInstructionToList("GotoIf");
-    }
-
-    public void br(){
-      addInstructionToList("Break");
-    }
-
-    public void write(){
-      addInstructionToList("Write");
-    }
-
-    public void increment(){
-      addInstructionToList("Increment");
-    }
-
-    public void decrement(){
-      addInstructionToList("Decrement");
-    }
-
-    public void left(){
-      addInstructionToList("Left");
-    }
-
-    public void right(){
-      addInstructionToList("Right");
-    }
-
-    public void comment(){
-      addInstructionToList("Comment");
-    }
-
     public void selectInstruction(Instruction inst){
       selectedInstruction = inst;
     }
 
-    public Instruction addInstructionToList(string instruction){
+    public Instruction addInstructionToList(InstructionType instruction){
       content.sizeDelta = new Vector2(0, 60 * (instructions.Count + 1));
 
       float spawnY = 495 - (65 * (instructions.Count + 1));
@@ -239,10 +205,10 @@ public class UIHandler : MonoBehaviour
       Vector3 pos = new Vector3(spawnX, spawnY, instructionListSpawnPoint.position.z);
       GameObject spawnedInstruction = (GameObject)Instantiate(instructionObject, pos, instructionListSpawnPoint.rotation);
       spawnedInstruction.transform.SetParent(instructionListSpawnPoint, false);
-      spawnedInstruction.name = instruction + (instructions.Count);
+      spawnedInstruction.name = instruction.ToString() + (instructions.Count);
 
       Instruction instructionComponent = spawnedInstruction.GetComponent<Instruction>();
-      instructionComponent.instructionType = instruction;
+      instructionComponent.InstructionType = instruction;
       instructions.Add(instructionComponent);
 
       instructionComponent.text.text = (instructions.Count - 1) + ") " + instruction;
@@ -257,7 +223,7 @@ public class UIHandler : MonoBehaviour
       inputField.onValidateInput += delegate (string s, int i, char c) { return char.ToUpper(c); };
 
       switch(instruction){
-        case "Goto":
+        case Goto:
           instructionComponent.image.color = new Color32(84, 13, 110, 150);
           instructionComponent.sprite.sprite = gotoSprite;
 
@@ -267,7 +233,7 @@ public class UIHandler : MonoBehaviour
           second.gameObject.SetActive(false);
 
           break;
-        case "Comment":
+        case Comment:
           instructionComponent.image.color = new Color32(150, 150, 150, 150);
           instructionComponent.sprite.sprite = null;
 
@@ -275,7 +241,7 @@ public class UIHandler : MonoBehaviour
           second.gameObject.SetActive(false);
 
           break;
-        case "GotoIf":
+        case GotoIf:
           instructionComponent.image.color = new Color32(255, 210, 63, 150);
           instructionComponent.sprite.sprite = gotoSprite;
 
@@ -285,7 +251,7 @@ public class UIHandler : MonoBehaviour
           second.placeholder.GetComponent<Text>().text = "Symbol";
 
           break;
-        case "Break":
+        case Break:
           instructionComponent.image.color = new Color32(255, 0, 0, 150);
           instructionComponent.sprite.sprite = breakSprite;
 
@@ -293,7 +259,7 @@ public class UIHandler : MonoBehaviour
           second.gameObject.SetActive(false);
 
           break;
-        case "Write":
+        case Write:
           instructionComponent.image.color = new Color32(59, 206, 172, 150);
           instructionComponent.sprite.sprite = writeSprite;
 
@@ -302,7 +268,7 @@ public class UIHandler : MonoBehaviour
           second.gameObject.SetActive(false);
 
           break;
-        case "Increment":
+        case Increment:
           instructionComponent.image.color = new Color32(14, 173, 105, 150);
           instructionComponent.sprite.sprite = incrementSprite;
 
@@ -310,7 +276,7 @@ public class UIHandler : MonoBehaviour
           second.gameObject.SetActive(false);
 
           break;
-        case "Decrement":
+        case Decrement:
           instructionComponent.image.color = new Color32(14, 173, 105, 150);
           instructionComponent.sprite.sprite = decrementSprite;
 
@@ -318,7 +284,7 @@ public class UIHandler : MonoBehaviour
           second.gameObject.SetActive(false);
 
           break;
-        case "Left":
+        case Left:
           instructionComponent.image.color = new Color32(25, 123, 189, 150);
           instructionComponent.sprite.sprite = leftSprite;
 
@@ -326,7 +292,7 @@ public class UIHandler : MonoBehaviour
           second.gameObject.SetActive(false);
 
           break;
-        case "Right":
+        case Right:
           instructionComponent.image.color = new Color32(25, 123, 189, 150);
           instructionComponent.sprite.sprite = rightSprite;
 

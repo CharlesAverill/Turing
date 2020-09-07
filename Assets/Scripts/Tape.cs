@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using static InstructionType;
 public class Tape : MonoBehaviour
 {
 
@@ -70,6 +70,7 @@ public class Tape : MonoBehaviour
       interruptFlag = false;
     }
 
+    //TODO error handling for invalid instructions
     public IEnumerator executeInstructions(Instruction[] instructions){
       reinitialize();
       executing = true;
@@ -90,12 +91,12 @@ public class Tape : MonoBehaviour
           cb.normalColor = new Color32(128, 230, 255, 150);
           b.colors = cb;
 
-          switch(i.instructionType){
-            case "Goto":
+          switch(i.InstructionType){
+            case Goto:
               zoom.Play();
 
-              if(i.userContent.Length > 0){
-                int newIndex = Int32.Parse(i.userContent);
+              if(i.UserContent.Length > 0){
+                int newIndex = int.Parse(i.UserContent);
 
                 if(newIndex >= 0 && newIndex < instructions.Length){
                   j = newIndex - 1;
@@ -109,15 +110,15 @@ public class Tape : MonoBehaviour
               }
 
               break;
-            case "Comment":
+            case Comment:
               zoom.Play();
               break;
-            case "GotoIf":
+            case GotoIf:
               zoom.Play();
 
-              if(read() == i.extraUserContent){
-                if(i.userContent.Length > 0){
-                  int newIndex = Int32.Parse(i.userContent);
+              if(read() == i.ExtraUserContent){
+                if(i.UserContent.Length > 0){
+                  int newIndex = Int32.Parse(i.UserContent);
 
                   if(newIndex >= 0 && newIndex < instructions.Length){
                     j = newIndex - 1;
@@ -131,30 +132,30 @@ public class Tape : MonoBehaviour
                 }
               }
               break;
-            case "Break":
+            case Break:
               breakLoop = true;
               break;
-            case "Write":
+            case Write:
               pencilScratch.Play();
 
-              write(i.userContent);
+              write(i.UserContent);
 
               break;
-            case "Increment":
+            case Increment:
               pencilScratch.Play();
               increment();
               break;
-            case "Decrement":
+            case Decrement:
               pencilScratch.Play();
               decrement();
               break;
-            case "Left":
+            case Left:
               click.Play();
 
               shiftLeft();
 
               break;
-            case "Right":
+            case Right:
               shiftRight();
 
               click.Play();
@@ -192,12 +193,12 @@ public class Tape : MonoBehaviour
     public string[] getValues(){
       string[] output = new string[tape.Length];
       for(int i = 0; i < output.Length; i++){
-        output[i] = tape[i].val;
+        output[i] = tape[i].Val;
       }
       return output;
     }
 
-    public void increment(){
+    private void increment(){
       string val = read().ToUpper();
 
       if(val.Length < 1){
@@ -227,7 +228,7 @@ public class Tape : MonoBehaviour
       }
     }
 
-    public void decrement(){
+    private void decrement(){
       string val = read().ToUpper();
 
       if(val.Length < 1){
@@ -257,9 +258,9 @@ public class Tape : MonoBehaviour
       }
     }
 
-    public bool write(string newVal){
+    private bool write(string newVal){
       if(index >= 0 && index < tape.Length){
-        tape[index].setVal(("" + newVal).ToUpper());
+        tape[index].Val = ("" + newVal).ToUpper();
         return true;
       }
       else{
@@ -267,23 +268,23 @@ public class Tape : MonoBehaviour
       }
     }
 
-    public string read(){
+    private string read(){
       try{
-        return tape[index].val;
+        return tape[index].Val;
       }
       catch{
         return "%";
       }
     }
 
-    public void shiftLeft(){
+    private void shiftLeft(){
       index -= 1;
       Vector3 newPos = transform.position;
       newPos.x += 1;
       transform.position = newPos;
     }
 
-    public void shiftRight(){
+    private void shiftRight(){
       index += 1;
       Vector3 newPos = transform.position;
       newPos.x -= 1;
@@ -300,14 +301,14 @@ public class Tape : MonoBehaviour
         cellI.name = "Cell " + (i);
 
         Cell cellComponent = cellI.GetComponent<Cell>();
-        cellComponent.setVal("0");
+        cellComponent.Val = "0";
 
         output[i] = cellComponent;
       }
       return output;
     }
 
-    public Cell[] makeTapeFromArray(string[] arr){
+    private Cell[] makeTapeFromArray(string[] arr){
       Cell[] output = new Cell[arr.Length];
       for(int i = 0; i < arr.Length; i++){
         Vector3 pos = new Vector3(i, 0, transform.position.z);
@@ -317,19 +318,19 @@ public class Tape : MonoBehaviour
         cellI.name = "Cell " + (i);
 
         Cell cellComponent = cellI.GetComponent<Cell>();
-        cellComponent.setVal(arr[i]);
+        cellComponent.Val = arr[i];
 
         output[i] = cellComponent;
       }
       return output;
     }
 
-    public void randomizeCellArray(){
+    private void randomizeCellArray(){
       string chars = "                  0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
       for(int i = 0; i < tape.Length; i++){
-        tape[i].setVal("" + chars[UnityEngine.Random.Range(0, chars.Length - 1)]);
-        Debug.Log(tape[i].val);
+        tape[i].Val = ("" + chars[UnityEngine.Random.Range(0, chars.Length - 1)]);
+        Debug.Log(tape[i].Val);
       }
     }
 }

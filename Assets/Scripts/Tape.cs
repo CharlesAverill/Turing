@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using static InstructionType;
 public class Tape : MonoBehaviour
 {
 
@@ -92,11 +92,11 @@ public class Tape : MonoBehaviour
           b.colors = cb;
 
           switch(i.InstructionType){
-            case "Goto":
+            case Goto:
               zoom.Play();
 
               if(i.UserContent.Length > 0){
-                int newIndex = Int32.Parse(i.UserContent);
+                int newIndex = int.Parse(i.UserContent);
 
                 if(newIndex >= 0 && newIndex < instructions.Length){
                   j = newIndex - 1;
@@ -110,10 +110,10 @@ public class Tape : MonoBehaviour
               }
 
               break;
-            case "Comment":
+            case Comment:
               zoom.Play();
               break;
-            case "GotoIf":
+            case GotoIf:
               zoom.Play();
 
               if(read() == i.ExtraUserContent){
@@ -132,30 +132,30 @@ public class Tape : MonoBehaviour
                 }
               }
               break;
-            case "Break":
+            case Break:
               breakLoop = true;
               break;
-            case "Write":
+            case Write:
               pencilScratch.Play();
 
               write(i.UserContent);
 
               break;
-            case "Increment":
+            case Increment:
               pencilScratch.Play();
               increment();
               break;
-            case "Decrement":
+            case Decrement:
               pencilScratch.Play();
               decrement();
               break;
-            case "Left":
+            case Left:
               click.Play();
 
               shiftLeft();
 
               break;
-            case "Right":
+            case Right:
               shiftRight();
 
               click.Play();
@@ -198,7 +198,7 @@ public class Tape : MonoBehaviour
       return output;
     }
 
-    public void increment(){
+    private void increment(){
       string val = read().ToUpper();
 
       if(val.Length < 1){
@@ -228,7 +228,7 @@ public class Tape : MonoBehaviour
       }
     }
 
-    public void decrement(){
+    private void decrement(){
       string val = read().ToUpper();
 
       if(val.Length < 1){
@@ -258,7 +258,7 @@ public class Tape : MonoBehaviour
       }
     }
 
-    public bool write(string newVal){
+    private bool write(string newVal){
       if(index >= 0 && index < tape.Length){
         tape[index].Val = ("" + newVal).ToUpper();
         return true;
@@ -268,7 +268,7 @@ public class Tape : MonoBehaviour
       }
     }
 
-    public string read(){
+    private string read(){
       try{
         return tape[index].Val;
       }
@@ -277,14 +277,14 @@ public class Tape : MonoBehaviour
       }
     }
 
-    public void shiftLeft(){
+    private void shiftLeft(){
       index -= 1;
       Vector3 newPos = transform.position;
       newPos.x += 1;
       transform.position = newPos;
     }
 
-    public void shiftRight(){
+    private void shiftRight(){
       index += 1;
       Vector3 newPos = transform.position;
       newPos.x -= 1;
@@ -308,7 +308,7 @@ public class Tape : MonoBehaviour
       return output;
     }
 
-    public Cell[] makeTapeFromArray(string[] arr){
+    private Cell[] makeTapeFromArray(string[] arr){
       Cell[] output = new Cell[arr.Length];
       for(int i = 0; i < arr.Length; i++){
         Vector3 pos = new Vector3(i, 0, transform.position.z);
@@ -325,7 +325,7 @@ public class Tape : MonoBehaviour
       return output;
     }
 
-    public void randomizeCellArray(){
+    private void randomizeCellArray(){
       string chars = "                  0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
       for(int i = 0; i < tape.Length; i++){

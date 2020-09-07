@@ -14,7 +14,7 @@ public class Instruction : MonoBehaviour
     public InputField first;
     public InputField second;
 
-    public string InstructionType { get; set; }
+    public InstructionType InstructionType { get; set; }
 
     public string UserContent
     {

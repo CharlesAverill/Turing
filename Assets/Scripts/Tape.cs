@@ -192,7 +192,7 @@ public class Tape : MonoBehaviour
     public string[] getValues(){
       string[] output = new string[tape.Length];
       for(int i = 0; i < output.Length; i++){
-        output[i] = tape[i].val;
+        output[i] = tape[i].Val;
       }
       return output;
     }
@@ -259,7 +259,7 @@ public class Tape : MonoBehaviour
 
     public bool write(string newVal){
       if(index >= 0 && index < tape.Length){
-        tape[index].setVal(("" + newVal).ToUpper());
+        tape[index].Val = ("" + newVal).ToUpper();
         return true;
       }
       else{
@@ -300,7 +300,7 @@ public class Tape : MonoBehaviour
         cellI.name = "Cell " + (i);
 
         Cell cellComponent = cellI.GetComponent<Cell>();
-        cellComponent.setVal("0");
+        cellComponent.Val = "0";
 
         output[i] = cellComponent;
       }
@@ -317,7 +317,7 @@ public class Tape : MonoBehaviour
         cellI.name = "Cell " + (i);
 
         Cell cellComponent = cellI.GetComponent<Cell>();
-        cellComponent.setVal(arr[i]);
+        cellComponent.Val = arr[i];
 
         output[i] = cellComponent;
       }
@@ -328,8 +328,8 @@ public class Tape : MonoBehaviour
       string chars = "                  0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
       for(int i = 0; i < tape.Length; i++){
-        tape[i].setVal("" + chars[UnityEngine.Random.Range(0, chars.Length - 1)]);
-        Debug.Log(tape[i].val);
+        tape[i].Val = ("" + chars[UnityEngine.Random.Range(0, chars.Length - 1)]);
+        Debug.Log(tape[i].Val);
       }
     }
 }

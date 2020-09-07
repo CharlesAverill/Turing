@@ -6,9 +6,14 @@ using UnityEngine.UI;
 public class Cell : MonoBehaviour
 {
 
-    public Text text;
+    private Text text;
+    private string val;
 
-    public string val;
+    public string Val
+    {
+        get => val;
+        set => val = value;
+    }
 
     // Start is called before the first frame update
     void OnEnable()
@@ -20,10 +25,5 @@ public class Cell : MonoBehaviour
     void Update()
     {
 
-    }
-
-    public void setVal(string newVal){
-      val = newVal;
-      text.text = val;
     }
 }

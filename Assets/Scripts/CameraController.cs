@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
 
     public float moveSpeed = 1f;
 
-    public bool canMove;
+    public bool canMove = true;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,8 @@ public class CameraController : MonoBehaviour
     {
       if(canMove){
         var move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-        transform.position += move * moveSpeed * Time.deltaTime;
+        //multiply scalars before vector to be more efficient
+        transform.position += move * (moveSpeed * Time.deltaTime);
       }
     }
 }

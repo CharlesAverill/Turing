@@ -70,6 +70,7 @@ public class Tape : MonoBehaviour
       interruptFlag = false;
     }
 
+    //TODO error handling for invalid instructions
     public IEnumerator executeInstructions(Instruction[] instructions){
       reinitialize();
       executing = true;
@@ -90,12 +91,12 @@ public class Tape : MonoBehaviour
           cb.normalColor = new Color32(128, 230, 255, 150);
           b.colors = cb;
 
-          switch(i.instructionType){
+          switch(i.InstructionType){
             case "Goto":
               zoom.Play();
 
-              if(i.userContent.Length > 0){
-                int newIndex = Int32.Parse(i.userContent);
+              if(i.UserContent.Length > 0){
+                int newIndex = Int32.Parse(i.UserContent);
 
                 if(newIndex >= 0 && newIndex < instructions.Length){
                   j = newIndex - 1;
@@ -115,9 +116,9 @@ public class Tape : MonoBehaviour
             case "GotoIf":
               zoom.Play();
 
-              if(read() == i.extraUserContent){
-                if(i.userContent.Length > 0){
-                  int newIndex = Int32.Parse(i.userContent);
+              if(read() == i.ExtraUserContent){
+                if(i.UserContent.Length > 0){
+                  int newIndex = Int32.Parse(i.UserContent);
 
                   if(newIndex >= 0 && newIndex < instructions.Length){
                     j = newIndex - 1;
@@ -137,7 +138,7 @@ public class Tape : MonoBehaviour
             case "Write":
               pencilScratch.Play();
 
-              write(i.userContent);
+              write(i.UserContent);
 
               break;
             case "Increment":
@@ -269,7 +270,7 @@ public class Tape : MonoBehaviour
 
     public string read(){
       try{
-        return tape[index].val;
+        return tape[index].Val;
       }
       catch{
         return "%";

@@ -12,7 +12,11 @@ public class Cell : MonoBehaviour
     public string Val
     {
         get => val;
-        set => val = value;
+        set
+        {
+            val = value;
+            text.text = val;
+        }
     }
 
     // Start is called before the first frame update

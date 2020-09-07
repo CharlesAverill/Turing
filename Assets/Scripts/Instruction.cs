@@ -14,13 +14,32 @@ public class Instruction : MonoBehaviour
     public InputField first;
     public InputField second;
 
-    public string instructionType;
-    public string userContent;
-    public string extraUserContent;
+    public string InstructionType { get; set; }
 
-    public int index;
+    public string UserContent
+    {
+      get => userContent;
+      set
+      {
+        userContent = value;
+        first.text = value;
+      }
+    }
 
+    public string ExtraUserContent
+    {
+      get => extraUserContent;
+      set
+      {
+        extraUserContent = value;
+        second.text = value;
+      }
+    }
+    
+    private string extraUserContent;
+    public int index { get; set; }
     private bool canMove;
+    private string userContent;
 
     // Start is called before the first frame update
     void Start()
@@ -39,23 +58,5 @@ public class Instruction : MonoBehaviour
         canMove = true;
         CameraController.cc.canMove = true;
       }
-    }
-
-    public void setContent(Text newContent){
-      userContent = newContent.text;
-    }
-
-    public void setExtraContent(Text newContent){
-      extraUserContent = newContent.text;
-    }
-
-    public void setContentString(string newString){
-      first.text = newString;
-      userContent = newString;
-    }
-
-    public void setExtraContentString(string newString){
-      second.text = newString;
-      extraUserContent = newString;
     }
 }

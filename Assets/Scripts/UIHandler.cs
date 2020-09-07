@@ -73,12 +73,12 @@ public class UIHandler : MonoBehaviour
             break;
           case "goto":
             Instruction cpmg = addInstructionToList("Goto");
-            cpmg.setContentString(words[1]);
+            cpmg.UserContent = words[1];
             break;
           case "gotoif":
             Instruction cpmgi = addInstructionToList("GotoIf");
-            cpmgi.setContentString(words[1]);
-            cpmgi.setExtraContentString(words[2].Replace("B", ""));
+            cpmgi.UserContent = words[1];
+            cpmgi.ExtraUserContent = words[2].Replace("B", "");
             break;
           case "break":
             br();
@@ -86,7 +86,7 @@ public class UIHandler : MonoBehaviour
           case "write":
             Instruction cpmw = addInstructionToList("Write");
             if(words.Length > 1){
-              cpmw.setContentString(words[1].Replace("B", ""));
+              cpmw.UserContent = words[1].Replace("B", "");
             }
             break;
           case "increment":
@@ -180,7 +180,7 @@ public class UIHandler : MonoBehaviour
         Instruction i = instructions[j];
 
         i.index = j;
-        i.text.text = j + ") " + i.instructionType;
+        i.text.text = j + ") " + i.InstructionType;
 
         RectTransform rt = i.gameObject.GetComponent<RectTransform>();
 
@@ -242,7 +242,7 @@ public class UIHandler : MonoBehaviour
       spawnedInstruction.name = instruction + (instructions.Count);
 
       Instruction instructionComponent = spawnedInstruction.GetComponent<Instruction>();
-      instructionComponent.instructionType = instruction;
+      instructionComponent.InstructionType = instruction;
       instructions.Add(instructionComponent);
 
       instructionComponent.text.text = (instructions.Count - 1) + ") " + instruction;

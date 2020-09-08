@@ -12,6 +12,7 @@ public class UIHandler : MonoBehaviour
     public Tape tape;
 
     public string filename = null;
+    public bool autoFileName;
 
     public List<Instruction> instructions;
     public GameObject instructionObject;
@@ -34,9 +35,10 @@ public class UIHandler : MonoBehaviour
       instructions = new List<Instruction>();
       selectedInstruction = null;
 
-      if(filename != null){
-        fileToUI(filename);
+      if(autoFileName){
+        filename = LevelHandler.lh.toLoad.levelName + ".txt";
       }
+      fileToUI(filename);
     }
 
     // Update is called once per frame
@@ -75,12 +77,12 @@ public class UIHandler : MonoBehaviour
             break;
           case "goto":
             Instruction cpmg = addInstructionToList(Goto);
-            cpmg.UserContent = words[1];
+            cpmg.UISetUserContent(words[1]);
             break;
           case "gotoif":
             Instruction cpmgi = addInstructionToList(GotoIf);
-            cpmgi.UserContent = words[1];
-            cpmgi.ExtraUserContent = words[2].Replace("B", "");
+            cpmgi.UISetUserContent(words[1]);
+            cpmgi.UISetExtraUserContent(words[2].Replace("B", "%"));
             break;
           case "break":
             addInstructionToList(Break);
@@ -88,7 +90,7 @@ public class UIHandler : MonoBehaviour
           case "write":
             Instruction cpmw = addInstructionToList(Write);
             if(words.Length > 1){
-              cpmw.UserContent = words[1].Replace("B", "");
+              cpmw.UISetUserContent(words[1].Replace("B", "%"));
             }
             break;
           case "increment":
@@ -133,7 +135,6 @@ public class UIHandler : MonoBehaviour
         if(interruptFlag){
           break;
         }
-        Debug.Log(LevelHandler.lh.currentTapeIndex);
         StartCoroutine(tape.executeInstructions(instructions.ToArray()));
         while(tape.executing){
           yield return null;
@@ -156,6 +157,12 @@ public class UIHandler : MonoBehaviour
 
       if(!incorrect && !interruptFlag){
         Debug.Log("Level " + LevelHandler.lh.levelIndex + " complete!");
+        if(LevelHandler.lh.levels.Count > LevelHandler.lh.levelIndex){
+          LevelHandler.lh.nextLevelButton.SetActive(true);
+        }
+        else{
+          Debug.Log("Out of Levels!");
+        }
       }
     }
 
@@ -195,6 +202,38 @@ public class UIHandler : MonoBehaviour
 
     public void selectInstruction(Instruction inst){
       selectedInstruction = inst;
+    }
+
+    public void addInstructionByString(string str){
+      switch(str){
+        case "goto":
+          addInstructionToList(Goto);
+          break;
+        case "comment":
+          addInstructionToList(Comment);
+          break;
+        case "gotoif":
+          addInstructionToList(GotoIf);
+          break;
+        case "break":
+          addInstructionToList(Break);
+          break;
+        case "write":
+          addInstructionToList(Write);
+          break;
+        case "increment":
+          addInstructionToList(Increment);
+          break;
+        case "decrement":
+          addInstructionToList(Decrement);
+          break;
+        case "left":
+          addInstructionToList(Left);
+          break;
+        case "right":
+          addInstructionToList(Right);
+          break;
+      }
     }
 
     public Instruction addInstructionToList(InstructionType instruction){

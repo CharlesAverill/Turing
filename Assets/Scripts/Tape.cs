@@ -114,8 +114,7 @@ public class Tape : MonoBehaviour
               zoom.Play();
               break;
             case GotoIf:
-              zoom.Play();
-
+              zoom.Play();=
               if(read() == i.ExtraUserContent){
                 if(i.UserContent.Length > 0){
                   int newIndex = Int32.Parse(i.UserContent);
@@ -175,13 +174,13 @@ public class Tape : MonoBehaviour
       while(click.isPlaying || pencilScratch.isPlaying || zoom.isPlaying){
         yield return null;
       }
-      if(!LevelHandler.lh.validateAnswer()){
+      if(!interruptFlag && !LevelHandler.lh.validateAnswer()){
         incorrect.Play();
         while(incorrect.isPlaying){
           yield return null;
         }
       }
-      else{
+      else if(!interruptFlag){
         correct.Play();
         while(correct.isPlaying){
           yield return null;
@@ -269,12 +268,7 @@ public class Tape : MonoBehaviour
     }
 
     private string read(){
-      try{
-        return tape[index].Val;
-      }
-      catch{
-        return "%";
-      }
+      return tape.Length > index && tape[index].Val != null ? tape[index].Val : "%";
     }
 
     private void shiftLeft(){
@@ -330,7 +324,6 @@ public class Tape : MonoBehaviour
 
       for(int i = 0; i < tape.Length; i++){
         tape[i].Val = ("" + chars[UnityEngine.Random.Range(0, chars.Length - 1)]);
-        Debug.Log(tape[i].Val);
       }
     }
 }

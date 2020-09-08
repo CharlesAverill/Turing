@@ -35,7 +35,7 @@ public class Instruction : MonoBehaviour
         second.text = value;
       }
     }
-    
+
     private string extraUserContent;
     public int index { get; set; }
     private bool canMove;
@@ -58,5 +58,23 @@ public class Instruction : MonoBehaviour
         canMove = true;
         CameraController.cc.canMove = true;
       }
+    }
+
+    public void UISetUserContent(){
+      UserContent = first.text;
+    }
+
+    public void UISetExtraUserContent(){
+      ExtraUserContent = second.text;
+    }
+
+    public void UISetUserContent(string t){
+      UserContent = t;
+      first.text = t;
+    }
+
+    public void UISetExtraUserContent(string t){
+      ExtraUserContent = t;
+      second.text = t;
     }
 }

@@ -43,10 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9295eee9c0b481f6ba5a69a472c68d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tapePrefab: {fileID: 2269666404957588661, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
-  toLoad:
-    levelName: 
-    description: 
+  tapePrefab: {fileID: 249659438797913070, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
+  nextLevelButton: {fileID: 0}
+  levels: []
+  levelIndex: -1
   scenesLoaded: 0
   currentTape: {fileID: 0}
   currentTapeIndex: -1

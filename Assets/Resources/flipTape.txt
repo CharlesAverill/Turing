@@ -1,0 +1,12 @@
+gotoif 11 %
+gotoif 8 0
+gotoif 5 1
+right
+goto 0
+write 0
+right
+goto 0
+write 1
+right
+goto 0
+break

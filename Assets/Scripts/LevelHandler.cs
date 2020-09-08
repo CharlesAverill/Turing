@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Newtonsoft.Json;
 
 public class LevelHandler : MonoBehaviour
@@ -10,7 +11,9 @@ public class LevelHandler : MonoBehaviour
     public static LevelHandler lh;
     public GameObject tapePrefab;
 
-    private List<Level> levels;
+    public GameObject nextLevelButton;
+
+    public List<Level> levels;
     public Level toLoad;
     public int levelIndex = -1;
 
@@ -48,10 +51,17 @@ public class LevelHandler : MonoBehaviour
 
     void OnSceneLoad(Scene scene, LoadSceneMode mode){
       scenesLoaded += 1;
-      if(toLoad == null && scene.name != "Title"){
-        toLoad = levels[0];
+
+      if(scene.name != "Title"){
+        nextLevelButton = GameObject.FindWithTag("NextLevelButton");
+        nextLevelButton.GetComponent<Button>().onClick.AddListener(loadNextLevel);
+        nextLevelButton.SetActive(false);
+        if(toLoad == null){
+          toLoad = levels[0];
+        }
+        loadNextTape();
       }
-      if(toLoad != null){
+      else if(toLoad != null){
         if(!loadNextTape()){
           Debug.Log("Level Load Error");
         }
@@ -124,6 +134,10 @@ public class LevelHandler : MonoBehaviour
       toLoad = levels[n - 1].copy();
       levelIndex = n;
       loadEditor();
+    }
+
+    public void loadNextLevel(){
+      loadLevel(levelIndex + 1);
     }
 
     // Update is called once per frame

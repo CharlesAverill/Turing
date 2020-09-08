@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TapeSpawnPoint
   - UIHandler
+  - NextLevelButton
   layers:
   - Default
   - TransparentFX

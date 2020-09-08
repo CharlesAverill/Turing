@@ -524,7 +524,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -987,6 +987,6 @@ PrefabInstance:
     - target: {fileID: 4298799919992815307, guid: 7c4f6109a56332b368379ebdb71713bb, type: 3}
       propertyPath: tapePrefab
       value: 
-      objectReference: {fileID: 2269666404957588661, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
+      objectReference: {fileID: 249659438797913070, guid: ba64a08cd5e85e4468ff28686ffd1a71, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c4f6109a56332b368379ebdb71713bb, type: 3}

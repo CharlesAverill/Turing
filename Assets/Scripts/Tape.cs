@@ -114,7 +114,7 @@ public class Tape : MonoBehaviour
               zoom.Play();
               break;
             case GotoIf:
-              zoom.Play();=
+              zoom.Play();
               if(read() == i.ExtraUserContent){
                 if(i.UserContent.Length > 0){
                   int newIndex = Int32.Parse(i.UserContent);

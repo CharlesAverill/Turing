@@ -82,16 +82,14 @@ public class UIHandler : MonoBehaviour
           case "gotoif":
             Instruction cpmgi = addInstructionToList(GotoIf);
             cpmgi.UISetUserContent(words[1]);
-            cpmgi.UISetExtraUserContent(words[2].Replace("B", "%"));
+            cpmgi.UISetExtraUserContent(words.Length > 2 ? words[2] : "");
             break;
           case "break":
             addInstructionToList(Break);
             break;
           case "write":
             Instruction cpmw = addInstructionToList(Write);
-            if(words.Length > 1){
-              cpmw.UISetUserContent(words[1].Replace("B", "%"));
-            }
+            cpmw.UISetUserContent(words[1]);
             break;
           case "increment":
             addInstructionToList(Increment);

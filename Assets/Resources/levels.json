@@ -17,6 +17,12 @@
         "description": "The provided tape will contain a random number of 1s and 0s. Invert the tape so that all 1s become 0s, and all 0s become 1s. [0 1 1 0] -> [1 0 0 1]",
         "tapes": [["0", "1", "1", "0"], ["0", "1"], ["1", "0"], ["1"], ["0"], ["0", "0", "0", "0", "0", "0"], ["1", "1", "1", "1", "1", "1"]],
         "solutions": [["1", "0", "0", "1"], ["1", "0"], ["0", "1"], ["0"], ["1"], ["1", "1", "1", "1", "1", "1"], ["0", "0", "0", "0", "0", "0"]]
+      },
+      {
+        "levelName": "addDecimal",
+        "description": "The provided tape will contain two numbers that will have between 1 and 3 digits each. The numbers will be separated by enough spaces that there should always be at least 1 space between them during calculation. Add the two numbers together and return the sum right-aligned. [5 % % 6] -> [% % 1 1]",
+        "tapes": [["1", "", "1"], ["1", "", "0"], ["0", "", "1"], ["4", "", "5"], ["5", "", "", "6"], ["1", "0", "", "1", "0"], ["1", "0", "0", "", "", "", "1"]],
+        "solutions": [["", "", "2"], ["", "", "1"], ["", "", "1"], ["", "", "9"], ["", "", "1", "1"], ["", "", "", "2", "0"], ["", "", "", "", "1", "0", "1"]]
       }
   ]
 }

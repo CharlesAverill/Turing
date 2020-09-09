@@ -8,7 +8,7 @@ break
 left
 gotoif 7 0
 gotoif 7 1
-gotoif 7 B
+gotoif 7 %
 right
 # Start subtract (1s compliment)
 gotoif 16 0
@@ -24,7 +24,7 @@ left
 # Sub-Add
 gotoif 31 0
 gotoif 28 1
-gotoif 31 B
+gotoif 31 %
 break
 write 0
 left
@@ -34,7 +34,7 @@ write 1
 left
 gotoif 33 0
 gotoif 33 1
-gotoif 33 B
+gotoif 33 %
 right
 gotoif 41 0
 gotoif 44 1
@@ -65,6 +65,6 @@ write 1
 left
 gotoif 64 0
 gotoif 64 1
-gotoif 64 B
+gotoif 64 %
 right
 goto 1

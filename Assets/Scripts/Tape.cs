@@ -258,6 +258,9 @@ public class Tape : MonoBehaviour
     }
 
     private bool write(string newVal){
+      if(newVal == "%"){
+        newVal = "";
+      }
       if(index >= 0 && index < tape.Length){
         tape[index].Val = ("" + newVal).ToUpper();
         return true;
@@ -268,7 +271,10 @@ public class Tape : MonoBehaviour
     }
 
     private string read(){
-      return tape.Length > index && tape[index].Val != null ? tape[index].Val : "%";
+      if(index < 0 || index >= tape.Length){
+        return "";
+      }
+      return tape[index].Val != null && tape[index].Val.Length == 1 ? tape[index].Val : "%";
     }
 
     private void shiftLeft(){

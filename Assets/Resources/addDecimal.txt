@@ -1,0 +1,42 @@
+# Check if X is 0
+gotoif 31 %
+gotoif 4 0
+goto 6
+right
+goto 1
+# Decrement X
+gotoif 10 %
+right
+goto 7
+left
+decrement
+gotoif 10 9
+# Increment Y
+gotoif 17
+right
+goto 14
+left
+gotoif 20 %
+goto 22
+write 1
+goto 25
+increment
+gotoif 17 0
+# Goto beginning
+gotoif 28
+left
+goto 25
+right
+goto 1
+# End condition
+gotoif 34
+right
+goto 31
+left
+gotoif 37 %
+goto 34
+left
+write %
+gotoif 41
+goto 37
+break

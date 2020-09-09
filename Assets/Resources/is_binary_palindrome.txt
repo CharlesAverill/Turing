@@ -1,30 +1,30 @@
 gotoif 3 0
 gotoif 18 1
 # First char is a 0
-write B
+write %
 right
 gotoif 4 0
 gotoif 4 1
 left
-gotoif 33 B # Accept
+gotoif 33 % # Accept
 gotoif 11 0 # First-Last chars match
 goto 44 # Reject
-write B
+write %
 left
 gotoif 12 0
 gotoif 12 1
 right
 goto 0
 # First char is a 1
-write B
+write %
 right
 gotoif 19 0
 gotoif 19 1
 left
-gotoif 33 B # Accept
+gotoif 33 % # Accept
 gotoif 26 1
 goto 44 # Reject
-write B
+write %
 left
 gotoif 27 0
 gotoif 27 1
@@ -34,21 +34,21 @@ goto 0
 left
 gotoif 33 0
 gotoif 33 1
-gotoif 33 B
+gotoif 33 %
 right
 write 1
 gotoif 37 0
 gotoif 37 1
-gotoif 37 B
+gotoif 37 %
 break
 # Reject
 left
 gotoif 44 0
 gotoif 44 1
-gotoif 44 B
+gotoif 44 %
 right
 write 0
 gotoif 48 0
 gotoif 48 1
-gotoif 48 B
+gotoif 48 %
 break

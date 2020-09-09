@@ -91,12 +91,12 @@ public class LevelHandler : MonoBehaviour
     }
 
     public bool loadNextTape(){
-      if(currentTape != null){
-        Destroy(currentTape.gameObject);
-      }
-
       if(currentTapeIndex + 1 >= toLoad.tapes.Count){
         return false;
+      }
+
+      if(currentTape != null){
+        Destroy(currentTape.gameObject);
       }
 
       GameObject tapeInstance = (GameObject)(Instantiate(tapePrefab));

@@ -45,16 +45,9 @@ public class Tape : MonoBehaviour
 
     }
 
-    public void speedUp(){
-      if(interval > 0.3f && executing){
-        interval -= 0.3f;
-      }
-    }
-
-    public void slowDown(){
-      if(interval < 1.3f && executing){
-        interval += 0.3f;
-      }
+    public void adjustSpeed(float spd){
+      float factor = 1f - spd;
+      interval = 0.5f + (1f * factor);
     }
 
     public void interrupt(){
@@ -96,13 +89,13 @@ public class Tape : MonoBehaviour
           if(interruptFlag){
             break;
           }
-
           Instruction i = instructions[j];
           Button b = i.GetComponent<Button>();
-
+          
           ColorBlock cb = b.colors;
           cb.normalColor = new Color32(128, 230, 255, 150);
           b.colors = cb;
+
 
           switch(i.instructionType){
             case "Goto":

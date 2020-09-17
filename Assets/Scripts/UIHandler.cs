@@ -25,8 +25,7 @@ public class UIHandler : MonoBehaviour
     public Sprite incrementSprite;
     public Sprite decrementSprite;
 
-    public Sprite increaseSpeed;
-    public Sprite decreaseSpeed;
+    public Slider speedControl;
 
     public Instruction selectedInstruction;
 
@@ -45,7 +44,7 @@ public class UIHandler : MonoBehaviour
     void Update()
     {
       //Include backspace to delete for Mac users
-      if(selectedInstruction != null && (Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace))){
+      if(selectedInstruction != null && (Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Escape))){
         instructions.RemoveAt(selectedInstruction.index);
         updatePositions(selectedInstruction.index);
         Destroy(selectedInstruction.gameObject);
@@ -103,14 +102,12 @@ public class UIHandler : MonoBehaviour
       }
     }
 
-    public void speedUp(){
-      tape.speedUp();
-    }
-    public void slowDown(){
-      tape.slowDown();
+    public void adjustSpeed(){
+      tape.adjustSpeed(speedControl.value);
     }
     
     public void execute(){
+      speedControl.value = 1f;
       StartCoroutine(executeEnum());
     }
 
